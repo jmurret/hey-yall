@@ -7,14 +7,22 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^24.7.1",
     "babel-polyfill": "^6.26.0",
-    "jest": "^24.7.1"
+    "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
+    "jest": "^24.7.1",
+    "rimraf": "^2.6.3"
   },
   "scripts": {
+    "build": "cross-env BABEL_ENV=production babel src --ignore '**/*.test.js' --out-dir lib",
+    "clean": "rimraf lib",
+    "lint": "eslint src",
     "test": "jest --config ./jest.config.json --coverage",
     "test:watch": "jest --config ./jest.config.json  --watch",
-    "test:watchAll": "jest --config ./jest.config.json  --watchAll"
+    "test:watchAll": "jest --config ./jest.config.json  --watchAll",
+    "prepublish": "npm run clean && npm run lint && npm run test && npm run build"
   },
   "repository": {
     "type": "git",
@@ -25,8 +33,12 @@
     "emitter",
     "event-emitter"
   ],
+  "files": [
+    "lib",
+    "src"
+  ],
   "author": "John Murret <jmurret@yahoo.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jmurret/hey-yall/issues"
   },
