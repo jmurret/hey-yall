@@ -8,10 +8,11 @@ const makeEmitter = () => {
     const existing = listeners(key);
     existing.push(fn)
     listenerMap.set(key, existing);
-  }
+  };
+  const on = addListener;
 
-  const emit = (key, ...args) => {
-    listeners(key).forEach(fn => fn(...args));
+  const emit = (key, ...rest) => {
+    listeners(key).forEach(fn => fn(...rest));
   };
 
   const eventNames = () => {
@@ -23,6 +24,8 @@ const makeEmitter = () => {
   const listeners = key => listenerMap.has(key) ? listenerMap.get(key) : [];
 
   const listenerCount = key => listeners(key).length;
+
+  const removeListener = (key, fn) => listenerMap.set(key, listeners(key).filter(x => x !== fn));
 
   const setMaxListeners = (numberOfListeners = defaultMaxListeners) => {
     maxListeners = numberOfListeners;
@@ -36,6 +39,8 @@ const makeEmitter = () => {
     getMaxListeners,
     listenerCount,
     listeners,
+    on,
+    removeListener,
     setMaxListeners,
   };
 };

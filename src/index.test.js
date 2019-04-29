@@ -11,7 +11,7 @@ describe('makeEmitter', () => {
     expect(eventEmitter.listenerCount).toBeDefined();
     expect(eventEmitter.listeners).toBeDefined();
     // expect(eventEmitter.off).toBeDefined();
-    // expect(eventEmitter.on).toBeDefined();
+    expect(eventEmitter.on).toBeDefined();
     // expect(eventEmitter.once).toBeDefined();
     // expect(eventEmitter.prependListener).toBeDefined();
     // expect(eventEmitter.removeListener).toBeDefined();
@@ -60,6 +60,25 @@ describe('addListener', () => {
     const fn2 = () => {};
     emitter.addListener(key, fn1);
     emitter.addListener(key, fn2);
+    expect(emitter.listeners(key)).toEqual([fn1, fn2]);
+  });
+});
+
+describe('on', () => {
+  test('should add event with listener when event is not in map', () => {
+    const emitter = makeEmitter();
+    const key = 'event1';
+    emitter.on(key, () => {});
+    expect(emitter.eventNames()).toEqual([key]);
+  });
+
+  test('should add event with listener when event is already in map', () => {
+    const emitter = makeEmitter();
+    const key = 'event1';
+    const fn1 = () => {};
+    const fn2 = () => {};
+    emitter.on(key, fn1);
+    emitter.on(key, fn2);
     expect(emitter.listeners(key)).toEqual([fn1, fn2]);
   });
 });
@@ -125,14 +144,14 @@ describe('emit', () => {
     expect(fn2).toHaveBeenCalledWith('blah', 'badee', 'blah');
   });
 });
-//
-// describe('on', () => {
-//   test('alias for ee.addListener', () => {
-//     const ee = makeEmitter();
-//
-//     expect(ee.on).toBe(ee.addListener);
-//   });
-// });
+
+describe('on', () => {
+  test('alias for ee.addListener', () => {
+    const ee = makeEmitter();
+
+    expect(ee.on).toBe(ee.addListener);
+  });
+});
 //
 // describe('once', () => {
 //   test('adds a listener to be called once', () => {
@@ -149,29 +168,18 @@ describe('emit', () => {
 //   });
 // })
 //
-// describe('removeListener', () => {
-//   test('removes the passed fn from the event listeners', () => {
-//     const ee = makeEmitter();
-//     const fn = () => {};
-//     const event = 'event';
-//
-//     ee.on(event, fn);
-//
-//     expect(ee.listenerCount(event)).toBe(1);
-//
-//     ee.removeListener(event, fn);
-//
-//     expect(ee.listenerCount(event)).toBe(0);
-//   });
-//
-//   test('returns true if no event found', () => {
-//     const ee = makeEmitter();
-//     const fn = () => {};
-//     const event = 'event';
-//
-//     expect(ee.removeListener(event, fn)).toBe(true);
-//   });
-// });
+describe('removeListener', () => {
+  test('should remove the given function for the given event key', () => {
+    const emitter = makeEmitter();
+    const fn1 = () => {};
+    const fn2 = () => {};
+    const key = 'key1';
+    emitter.addListener(key, fn1);
+    emitter.addListener(key, fn2);
+    emitter.removeListener(key, fn1);
+    expect(emitter.listeners(key)).toEqual([fn2]);
+  });
+});
 //
 // describe('removeAllListeners', () => {
 //   test('removes all listeners for passed event', () => {
