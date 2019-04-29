@@ -1,0 +1,34 @@
+{
+  "name": "hey-yall",
+  "version": "1.0.0",
+  "description": "Basic event emitter",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "babel-jest": "^24.7.1",
+    "babel-polyfill": "^6.26.0",
+    "jest": "^24.7.1"
+  },
+  "scripts": {
+    "test": "jest --config ./jest.config.json --coverage",
+    "test:watch": "jest --config ./jest.config.json  --watch",
+    "test:watchAll": "jest --config ./jest.config.json  --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmurret/hey-yall.git"
+  },
+  "keywords": [
+    "event",
+    "emitter",
+    "event-emitter"
+  ],
+  "author": "John Murret <jmurret@yahoo.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmurret/hey-yall/issues"
+  },
+  "homepage": "https://github.com/jmurret/hey-yall#readme"
+}
