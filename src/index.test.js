@@ -5,7 +5,7 @@ describe('makeEmitter', () => {
     const eventEmitter = makeEmitter();
     expect(eventEmitter.defaultMaxListeners).toBeDefined();
     expect(eventEmitter.addListener).toBeDefined();
-    // expect(eventEmitter.emit).toBeDefined();
+    expect(eventEmitter.emit).toBeDefined();
     expect(eventEmitter.eventNames).toBeDefined();
     expect(eventEmitter.getMaxListeners).toBeDefined();
     expect(eventEmitter.listenerCount).toBeDefined();
@@ -112,41 +112,19 @@ describe('listenerCount', () => {
   });
 });
 
-
-//
-// describe('emit', () => {
-//   test('calls all handlers for the given event', () => {
-//     const fns = [
-//       jest.fn(), jest.fn(), jest.fn(),
-//     ];
-//
-//     const ee = makeEmitter();
-//     const event = 'my event';
-//
-//     fns.forEach(fn => ee.addListener(event, fn));
-//
-//     ee.emit(event);
-//
-//     fns.forEach(fn => expect(fn).toHaveBeenCalled());
-//   });
-//
-//   test('passes args to the event handler', () => {
-//     const fns = [
-//       jest.fn(), jest.fn(), jest.fn(),
-//     ];
-//
-//     const ee = makeEmitter();
-//     const event = 'my event';
-//
-//     fns.forEach(fn => ee.addListener(event, fn));
-//
-//     const args = [1, 2, 3];
-//
-//     ee.emit(event, ...args);
-//
-//     fns.forEach(fn => expect(fn).toHaveBeenCalledWith(...args));
-//   });
-// });
+describe('emit', () => {
+  test('should call all subscribed functions for given key', () => {
+    const emitter = makeEmitter();
+    const key = 'key1';
+    const fn1 = jest.fn();
+    const fn2 = jest.fn();
+    emitter.addListener(key, fn1);
+    emitter.addListener(key, fn2);
+    emitter.emit(key, 'blah', 'badee', 'blah');
+    expect(fn1).toHaveBeenCalledWith('blah', 'badee', 'blah');
+    expect(fn2).toHaveBeenCalledWith('blah', 'badee', 'blah');
+  });
+});
 //
 // describe('on', () => {
 //   test('alias for ee.addListener', () => {

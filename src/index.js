@@ -10,6 +10,10 @@ const makeEmitter = () => {
     listenerMap.set(key, existing);
   }
 
+  const emit = (key, ...args) => {
+    listeners(key).forEach(fn => fn(...args));
+  };
+
   const eventNames = () => {
       return [...listenerMap.keys()];
   };
@@ -27,6 +31,7 @@ const makeEmitter = () => {
   return {
     addListener,
     defaultMaxListeners,
+    emit,
     eventNames,
     getMaxListeners,
     listenerCount,
